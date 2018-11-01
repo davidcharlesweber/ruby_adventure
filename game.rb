@@ -39,14 +39,19 @@ loop do
 
   available_locations = []
   positions = current_location.split('')
-  available_locations.push("#{positions[0]}#{(positions[1].to_s.ord + 1).chr}") if locations.include? "#{positions[0]}#{(positions[1].to_s.ord + 1).chr}"
-  available_locations.push("#{positions[0]}#{(positions[1].to_s.ord - 1).chr}") if locations.include? "#{positions[0]}#{(positions[1].to_s.ord - 1).chr}"
-  available_locations.push("#{(positions[0].to_s.ord + 1).chr}#{positions[1]}") if locations.include? "#{(positions[0].to_s.ord + 1).chr}#{positions[1]}"
-  available_locations.push("#{(positions[0].to_s.ord - 1).chr}#{positions[1]}") if locations.include? "#{(positions[0].to_s.ord - 1).chr}#{positions[1]}"
+  north = "#{positions[0]}#{(positions[1].to_s.ord - 1).chr}"
+  south = "#{positions[0]}#{(positions[1].to_s.ord + 1).chr}"
+  east = "#{(positions[0].to_s.ord + 1).chr}#{positions[1]}"
+  west = "#{(positions[0].to_s.ord - 1).chr}#{positions[1]}"
+
+  available_locations.push(north + ' north') if locations.include? north
+  available_locations.push(south + ' south') if locations.include? south
+  available_locations.push(east + ' east') if locations.include? east
+  available_locations.push(west + ' west') if locations.include? west
 
   puts 'Available locations are: '
   available_locations.each do |loc|
-    puts loc.to_s + ': ' + get_location(tiles, loc)
+    puts loc.to_s + ': ' + get_location(tiles, loc.split(' ').first)
   end
 
   input = ask 'Input coordinates: '
@@ -54,9 +59,12 @@ loop do
 
   break if input == 'exit'
 
-  if available_locations.include? input
-    if tiles[input] < (tiles[current_location] + (10 - difficulty)) && tiles[input] > (tiles[current_location] - (10 - difficulty))
-      current_location = input
+  if available_locations.index { |s| s.include?(input) }
+    coordinate = available_locations.select { |s| s.include?(input) }
+    coordinate = coordinate.first.split(' ').first
+
+    if tiles[coordinate] < (tiles[current_location] + (10 - difficulty)) && tiles[coordinate] > (tiles[current_location] - (10 - difficulty))
+      current_location = coordinate
     else
       puts "\e[31mYou couldn\'t make the trip there\e[0m\n"
     end
