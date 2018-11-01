@@ -52,9 +52,9 @@ loop do
   available_locations.push(east + ' east') if locations.include? east
   available_locations.push(west + ' west') if locations.include? west
 
-  puts 'Available locations are: '
+  puts 'Available directions are: '
   available_locations.each do |loc|
-    puts loc.to_s + ': ' + get_location(tiles, loc.split(' ').first)
+    puts loc.split(' ')[1].to_s + ': ' + get_location(tiles, loc.split(' ').first)
   end
 
   input = ask 'Input coordinates: '
