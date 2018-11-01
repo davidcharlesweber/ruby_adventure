@@ -72,8 +72,7 @@ BEGIN {
   end
 
   def lost_message(tiles, location)
-    location = get_location(tiles, location)
-    case location
+    case get_location(tiles, location)
     when 'Canyon'
       'You fell on a cactus in the Canyon and died.'
     when 'Valley'
