@@ -23,9 +23,12 @@ locations = %w[
 tiles = {}
 
 locations.each { |l| tiles[l] = rand(10) }
-
 current_location = locations[0]
+map_width = Math.sqrt(locations.count).to_i
+
 loop do
+  puts
+  draw_map(locations, tiles, map_width, current_location)
   puts
   if current_location.to_s == locations[-1]
     puts "\e[36mCongrats you won!\e[0m"
@@ -103,6 +106,23 @@ BEGIN {
       'I guess the towns people didn\'t like you after all'
     else
       'You died from something else'
+    end
+  end
+
+  def print_name(tiles, location, current_location)
+    if location == current_location
+      print "\e[31m#{get_location(tiles, location).center(20)}\e[0m"
+    else
+      print get_location(tiles, location).center(20)
+    end
+  end
+
+  def draw_map(locations, tiles, map_width, current_location)
+    locations.each_slice(map_width) do |group|
+      group.each do |l|
+        print_name(tiles, l, current_location)
+      end
+      puts
     end
   end
 }
