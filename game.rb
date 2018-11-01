@@ -9,7 +9,7 @@ difficulty = difficulty.to_i
 remaining_tries = 10 * (11 - difficulty)
 
 if difficulty.class == 'String' || difficulty < 1 || difficulty > 10
-  puts 'Pick a real diffuculty next time...'
+  puts 'Pick a real difficulty next time...'
   exit
 end
 
@@ -26,29 +26,16 @@ locations.each { |l| tiles[l] = rand(10) }
 
 current_location = locations[0]
 loop do
+  puts
   if current_location.to_s == locations[-1]
-    puts 'Congrats you won!'
+    puts "\e[36mCongrats you won!\e[0m"
     break
   elsif remaining_tries == 0
-    puts "\e[31mYour dead. You starved to death in the #{if tiles[current_location] > 0 && tiles[current_location] < 3
-                                                      'Valley'
-                                                    elsif tiles[current_location] > 3 && tiles[current_location] < 7
-                                                      'Hill side'
-                                                    else
-                                                      'Mountain Top'
-                                                    end
-                                                  }\e[0m\n"
+    puts "\e[31mYour dead. You starved to death in the #{get_location(tiles, current_location)}\e[0m\n"
     break
   end
 
-  puts "Current tile is: #{if tiles[current_location] > 0 && tiles[current_location] < 3
-                             'Valley'
-                           elsif tiles[current_location] > 3 && tiles[current_location] < 7
-                             'Hill side'
-                           else
-                             'Mountain Top'
-                           end
-                          }\n"
+  puts "Current location is: #{get_location(tiles, current_location)}\n"
 
   available_locations = []
   positions = current_location.split('')
@@ -59,16 +46,10 @@ loop do
 
   puts 'Available locations are: '
   available_locations.each do |loc|
-    puts loc.to_s + ': ' + if tiles[loc] > 0 && tiles[loc] < 3
-                             'Valley'
-                           elsif tiles[loc] > 3 && tiles[loc] < 7
-                             'Hill side'
-                           else
-                             'Mountain Top'
-                            end
+    puts loc.to_s + ': ' + get_location(tiles, loc)
   end
 
-  input = ask 'Input text: '
+  input = ask 'Input coordinates: '
   remaining_tries -= 1
 
   break if input == 'exit'
@@ -77,9 +58,17 @@ loop do
     if tiles[input] < (tiles[current_location] + (10 - difficulty)) && tiles[input] > (tiles[current_location] - (10 - difficulty))
       current_location = input
     else
-      puts "\e[31mYou couldn\'t make the climb there\e[0m\n"
+      puts "\e[31mYou couldn\'t make the trip there\e[0m\n"
     end
   else
     puts 'Bad selection.'
   end
 end
+
+BEGIN {
+  def get_location(tiles, location)
+    places = ['Canyon', 'Valley', 'Dessert', 'Hill Side', 'Road',
+              'Forest', 'Cemetary', 'Mountain Top', 'River', 'Town']
+    places[tiles[location]]
+  end
+}
