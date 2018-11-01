@@ -42,10 +42,10 @@ loop do
 
   available_locations = []
   positions = current_location.split('')
-  north = "#{positions[0]}#{(positions[1].to_s.ord - 1).chr}"
-  south = "#{positions[0]}#{(positions[1].to_s.ord + 1).chr}"
-  east = "#{(positions[0].to_s.ord + 1).chr}#{positions[1]}"
-  west = "#{(positions[0].to_s.ord - 1).chr}#{positions[1]}"
+  west = "#{positions[0]}#{(positions[1].to_s.ord - 1).chr}"
+  east = "#{positions[0]}#{(positions[1].to_s.ord + 1).chr}"
+  south = "#{(positions[0].to_s.ord + 1).chr}#{positions[1]}"
+  north = "#{(positions[0].to_s.ord - 1).chr}#{positions[1]}"
 
   available_locations.push(north + ' north') if locations.include? north
   available_locations.push(south + ' south') if locations.include? south
