@@ -67,8 +67,7 @@ end
 
 BEGIN {
   def get_location(tiles, location)
-    places = ['Canyon', 'Valley', 'Dessert', 'Hill Side', 'Road',
-              'Forest', 'Cemetary', 'Mountain Top', 'River', 'Town']
+    places = %w[Canyon Valley Dessert Hill Side Road Forest Cemetary Mountain River Town]
     places[tiles[location]]
   end
 }
