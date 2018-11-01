@@ -31,7 +31,7 @@ loop do
     puts "\e[36mCongrats you won!\e[0m"
     break
   elsif remaining_tries == 0
-    puts "\e[31mYour dead. You starved to death in the #{get_location(tiles, current_location)}\e[0m\n"
+    puts "\e[31mYou're dead. You starved to death in the #{get_location(tiles, current_location)}\e[0m\n"
     break
   end
 
@@ -67,7 +67,7 @@ end
 
 BEGIN {
   def get_location(tiles, location)
-    places = %w[Canyon Valley Dessert Hill Side Road Forest Cemetary Mountain River Town]
+    places = %w[Canyon Valley Dessert HillSide Road Forest Cemetary Mountain River Town]
     places[tiles[location]]
   end
 }
