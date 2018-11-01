@@ -86,7 +86,7 @@ BEGIN {
     when 'Forest'
       'The wolves got your scent in the forest. You\'ve been eaten alive'
     when 'Cemetary'
-      'Obvisouly zombies got you in the cemetary'
+      'Obviously zombies got you in the cemetary'
     when 'Mountain'
       'The cold froze you to death. You should have gotten off the mountain'
     when 'River'
