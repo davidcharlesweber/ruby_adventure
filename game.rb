@@ -9,7 +9,7 @@ difficulty = difficulty.to_i
 remaining_tries = 10 * (11 - difficulty)
 
 if difficulty.class == 'String' || difficulty < 1 || difficulty > 10
-  puts 'Pick a real diffuculty next time...'
+  puts 'Pick a real difficulty next time...'
   exit
 end
 
@@ -30,7 +30,7 @@ loop do
     puts 'Congrats you won!'
     break
   elsif remaining_tries == 0
-    puts "\e[31mYour dead. You starved to death in the #{if tiles[current_location] > 0 && tiles[current_location] < 3
+    puts "\e[31mYou're dead. You starved to death in the #{if tiles[current_location] > 0 && tiles[current_location] < 3
                                                       'Valley'
                                                     elsif tiles[current_location] > 3 && tiles[current_location] < 7
                                                       'Hill side'
