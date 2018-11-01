@@ -31,7 +31,7 @@ loop do
     puts "\e[36mCongrats you won!\e[0m"
     break
   elsif remaining_tries == 0
-    puts "\e[31mYou're dead. You starved to death in the #{get_location(tiles, current_location)}\e[0m\n"
+    puts "\e[31m#{lost_message(tiles, current_location)}\e[0m\n"
     break
   end
 
@@ -67,7 +67,35 @@ end
 
 BEGIN {
   def get_location(tiles, location)
-    places = %w[Canyon Valley Dessert HillSide Road Forest Cemetary Mountain River Town]
+    places = %w[Canyon Valley Desert HillSide Road Forest Cemetary Mountain River Town]
     places[tiles[location]]
+  end
+
+  def lost_message(tiles, location)
+    location = get_location(tiles, location)
+    case location
+    when 'Canyon'
+      'You fell on a cactus in the Canyon and died.'
+    when 'Valley'
+      'You were attacked by birds and died in the valley'
+    when 'Desert'
+      'You ran of water and died in the desert.'
+    when 'HillSide'
+      'The hills have eyes. You are dead.'
+    when 'Road'
+      'A hitchhiker caught up with you on the road. You are dead.'
+    when 'Forest'
+      'The wolves got your scent in the forest. You\'ve been eaten alive'
+    when 'Cemetary'
+      'Obvisouly zombies got you in the cemetary'
+    when 'Mountain'
+      'The cold froze you to death. You should have gotten off the mountain'
+    when 'River'
+      'You should have been better at swimming. You\'ve drowned'
+    when 'Town'
+      'I guess the towns people didn\'t like you after all'
+    else
+      'You died from something else'
+    end
   end
 }
