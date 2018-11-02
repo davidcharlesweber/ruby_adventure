@@ -22,11 +22,17 @@ locations = %w[
 
 tiles = {}
 
+load_anscii
+
 locations.each { |l| tiles[l] = rand(10) }
 current_location = locations[0]
 map_width = Math.sqrt(locations.count).to_i
 
 loop do
+  clear_screen
+  puts "\033[1mCurrently playing difficulty level:\033[0m #{difficulty}"
+  puts "\033[1mRemaing Moves:\033[0m #{remaining_tries}";puts
+  puts instance_variable_get("@#{get_location(tiles, current_location).downcase}")
   puts
   draw_map(locations, tiles, map_width, current_location)
   puts
@@ -52,12 +58,15 @@ loop do
   available_locations.push(east + ' east') if locations.include? east
   available_locations.push(west + ' west') if locations.include? west
 
-  puts 'Available directions are: '
+  puts 'Adjacent locations are: '
   available_locations.each do |loc|
     puts loc.split(' ')[1].to_s + ': ' + get_location(tiles, loc.split(' ').first)
   end
+  puts
 
-  input = ask 'Input coordinates: '
+  input = ask 'Try which direction?: '
+  input = convert_input(input)
+
   remaining_tries -= 1
 
   break if input == 'exit'
@@ -78,32 +87,32 @@ end
 
 BEGIN {
   def get_location(tiles, location)
-    places = %w[Canyon Valley Desert HillSide Road Forest Cemetary Mountain River Town]
+    places = %w[Bridge Sofa Town Barn Chapel Castle Beach Mountain Windmill Village]
     places[tiles[location]]
   end
 
   def lost_message(tiles, location)
     case get_location(tiles, location)
-    when 'Canyon'
-      'You fell on a cactus in the Canyon and died.'
-    when 'Valley'
-      'You were attacked by birds and died in the valley'
-    when 'Desert'
-      'You ran of water and died in the desert.'
-    when 'HillSide'
-      'The hills have eyes. You are dead.'
-    when 'Road'
-      'A hitchhiker caught up with you on the road. You are dead.'
-    when 'Forest'
-      'The wolves got your scent in the forest. You\'ve been eaten alive'
-    when 'Cemetary'
-      'Obviously zombies got you in the cemetary'
+    when 'Bridge'
+      'A strong cross wind blew you off the bridge.'
+    when 'Sofa'
+      'You should have played the game instead of sat on the sofa.'
+    when 'Town'
+      'The police arrested you for loitering.'
+    when 'Barn'
+      'You let yourself be accidentally trampled by a cow.'
+    when 'Chapel'
+      'Some terrible thing happened. Not sure what because it\'s a chapel. But you are dead now.'
+    when 'Castle'
+      'A mystious knight found and beheaded you.'
+    when 'Beach'
+      'A shark ate you while you went out for a swim.'
     when 'Mountain'
       'The cold froze you to death. You should have gotten off the mountain'
-    when 'River'
-      'You should have been better at swimming. You\'ve drowned'
-    when 'Town'
-      'I guess the towns people didn\'t like you after all'
+    when 'Windmill'
+      'A blade of the windmill fell off and crushed you. You shouldn\'t have been standing there.'
+    when 'Village'
+      'The village people wouldn\'t let you leave. Like in that one movie'
     else
       'You died from something else'
     end
@@ -123,6 +132,41 @@ BEGIN {
         print_name(tiles, l, current_location)
       end
       puts
+    end
+  end
+
+  def clear_screen
+    if RUBY_PLATFORM =~ /win32|win64|\.NET|windows|cygwin|mingw32/i
+       system('cls')
+     else
+       system('clear')
+    end
+ end
+
+  def load_anscii
+    fh = open './1bridge.txt';@bridge = fh.read;fh.close
+    fh = open './2sofa.txt';@sofa = fh.read;fh.close
+    fh = open './3town.txt';@town = fh.read;fh.close
+    fh = open './4barn.txt';@barn = fh.read;fh.close
+    fh = open './5chapel.txt';@chapel = fh.read;fh.close
+    fh = open './6castle.txt';@castle = fh.read;fh.close
+    fh = open './7beach.txt';@beach = fh.read;fh.close
+    fh = open './8mountain.txt';@mountain = fh.read;fh.close
+    fh = open './9windmill.txt';@windmill = fh.read;fh.close
+    fh = open './10village.txt';@village = fh.read;fh.close
+  end
+
+  def convert_input(input)
+    if input.downcase == 'up' || input.downcase == 'u' || input.downcase == 'north' || input.downcase == 'n'
+      'north'
+    elsif input.downcase == 'down' || input.downcase == 'd' || input.downcase == 'south' || input.downcase == 's'
+      'south'
+    elsif input.downcase == 'left' || input.downcase == 'l' || input.downcase == 'west' || input.downcase == 'w'
+      'west'
+    elsif input.downcase == 'right' || input.downcase == 'r' || input.downcase == 'east' || input.downcase == 'e'
+      'east'
+    else
+      input
     end
   end
 }
