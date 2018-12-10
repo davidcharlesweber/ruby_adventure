@@ -1,5 +1,5 @@
 # ruby_adventure
-A short text game as an playground in Ruby. 
+A short text game as a playground in Ruby. 
 
 To play pull the repo. 
 ```
